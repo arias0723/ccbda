@@ -19,3 +19,8 @@ module "lambda" {
 #     TELEGRAM_TOKEN = var.telegram_token
 #   }
 }
+
+module "cloudwatch" {
+    source = "./modules/cloudwatch"
+    lambda_function_name = var.lambda_function_name
+}
