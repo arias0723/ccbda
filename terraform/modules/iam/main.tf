@@ -24,7 +24,9 @@ resource "aws_iam_policy" "lambda_policy" {
       {
         Action = [
           "logs:CreateLogStream",
-          "logs:PutLogEvents"
+          "logs:PutLogEvents",
+          "bedrock:InvokeModel",
+          "bedrock:InvokeModelWithResponseStream"
         ]
         Effect   = "Allow"
         Resource = "*"
