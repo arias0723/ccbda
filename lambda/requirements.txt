@@ -1,1 +1,3 @@
 boto3
+mcp[sse]
+urllib3

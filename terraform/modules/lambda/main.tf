@@ -4,17 +4,12 @@ resource "aws_lambda_function" "telegram_lambda" {
 
   handler        = "lambda_function.lambda_handler"
   role           = var.lambda_role_arn
-  runtime        = "python3.9"
+  runtime        = "python3.12"
   memory_size    = 1024
-  timeout        = 10
+  timeout        = 30            # Increased timeout: fetching tools + bedrock + tool call can take 10+ seconds
 
-  source_code_hash = data.archive_file.python_lambda_package.output_base64sha256
-}
-
-data "archive_file" "python_lambda_package" {
-  type        = "zip"
-  source_file = "${path.root}/../lambda/lambda_function.py"
-  output_path = "${path.root}/../dist/telegram_lambda_${var.lambda_version}.zip"
+  # This ensures terraform realizes when the zip file has been updated
+  source_code_hash = filebase64sha256("${path.root}/../dist/telegram_lambda_${var.lambda_version}.zip")
 }
 
 ## Lambda invoke
